@@ -1,0 +1,162 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+
+}
+
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-top: 50px;
+    height: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+
+.product-details {
+    flex-basis: 100%;
+}
+
+
+.input-group {
+    width: calc(24% - 10px);
+    margin-bottom: 10px;
+}
+
+
+label {
+    margin-bottom: 5px;
+}
+
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+
+input[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+
+.print_bill_button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 25px;
+}
+
+#print_bill_button:hover {
+    background-color: #45a049;
+}
+
+#print_bill_button:active {
+    background-color: #3e8e41;
+}
+th.actions,
+td.actions {
+    width: 100px; /* Adjust the width as needed */
+}
+
+.cancel-button {
+    background-color: #f44336; /* Red color */
+    color: white;
+    padding: 6px 10px; /* Adjusted padding */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: auto; /* Allow button width to adjust */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.cancel-button:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+.cancel-button:active {
+    background-color: #b71c1c; /* Even darker red on click */
+}
+
+.success-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 5px solid #ccc;
+    padding: 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    max-width: 400px; /* Limiting the width */
+    text-align: center; /* Centering the content */
+}
+
+.success-popup p {
+    margin: 0;
+    font-size: 18px; /* Increase font size */
+}
+
+.success-popup button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px; /* Increase font size */
+    background-color: #3e8e41;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+.success-popup button:hover {
+    background-color: #45a049;
+}

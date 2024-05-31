@@ -1,0 +1,176 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Container styles */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: 50px;
+}
+
+/* Table styles */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table th,
+.table td {
+    padding: 12px 15px;
+}
+
+.table th {
+    font-weight: bold;
+    text-align: left;
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.table-striped tbody tr:nth-of-type(even):hover {
+    background-color: #dee2e6;
+}
+
+/* Popup overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Popup content */
+.popup {
+    justify-content: center;
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+}
+
+/* Form fields container */
+.form-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+/* Form input */
+/* Popup input */
+.popup input {
+    width: calc(250% ); /* Adjusted width */
+    padding: 12px; /* Increased padding */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+
+/* Form button */
+.popup button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 8px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Form button hover effect */
+.popup button:hover {
+    background-color: #45a049;
+}
+
+/* Close button */
+.popup .close-btn {
+    margin-top: 20px;
+    padding: 8px 20px;
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Close button hover effect */
+.popup .close-btn:hover {
+    background-color: #999;
+}
+
+/* Update button */
+.update-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.update-button:hover {
+    background-color: #45a049;
+}
+
+/* Delete button */
+.delete-button {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #da190b;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    .table-responsive {
+        overflow-x: scroll;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .form-container {
+        grid-template-columns: 1fr;
+    }
+
+    .input-group {
+        width: 100%;
+    }
+}
