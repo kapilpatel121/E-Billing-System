@@ -155,7 +155,7 @@ public class PdfService {
 		document.add(img);
 		
 		document.close();
-		openPdfFile(DEST);
+		//openPdfFile(DEST);
 
 		return DEST;
 	}

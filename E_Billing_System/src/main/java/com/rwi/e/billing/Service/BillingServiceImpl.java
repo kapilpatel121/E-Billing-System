@@ -21,6 +21,8 @@ public class BillingServiceImpl implements IBillingService {
 	@Autowired
 	private IBillRepository billRepo;
 
+	
+	
 	@Override
 	public int SaveBillInfo(Customer customer) {
 		// save billing info in billing repository
@@ -107,6 +109,12 @@ public static String formatDate(LocalDateTime dateTime) {
 	public int fetchTotalCustomerCount() {
 		// fetch all over customer count
 		return billRepo.totalcustomerCount();
+	}
+
+	@Override
+	public Bill_Entity getBillById(int id) {
+		// TODO Auto-generated method stub
+		return billRepo.getById(id);
 	}
 
 }
