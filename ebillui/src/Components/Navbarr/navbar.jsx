@@ -5,6 +5,7 @@ import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg
 import { faChartLine, faMoneyBillWave, faShoppingCart, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+
 function EBillingSystem() {
     const [totalCustomers, setTotalCustomers] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0);

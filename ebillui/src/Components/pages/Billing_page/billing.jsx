@@ -33,7 +33,7 @@ function BillingPage() {
         }
     };
 
-   const handleChange = async (e) => {
+    const handleChange = async (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -97,7 +97,6 @@ function BillingPage() {
         });
         return productMap;
     };
-
     const printBill = async () => {
         try {
             const response = await axios.post('http://localhost:4143/api/customers/addBillAndSendProductList', {
@@ -115,10 +114,64 @@ function BillingPage() {
                     'Content-Type': 'application/json'
                 }
             });
-
-            if (response.data === 'Bill and product list processed successfully') {
-                console.log("Bill printed successfully!");
+    
+            console.log("Response:", response.data); // Log the response data
+    
+            if (response.data.billMessage === 'Bill and product list processed successfully') {
+                console.log("Bill printed successfully!")
                 setShowSuccessPopup(true); // Show success popup
+    
+                if (formData.payment_mode.toLowerCase() !== 'cash') {
+                    const data = response.data;
+                    const amount = totalPrice;
+    
+                    const options = {
+                        key: data.key,
+                        amount: amount * 100,
+                        currency: "INR",
+                        name: "VKP Billing service",
+                        description: "Razorpay payment Getways",
+                        order_id: data.razorpayOrderId,
+                        handler: async function (response) {
+                            alert(`Order ID: ${data.razorpayOrderId}`);
+    
+                            // Save payment information to the database
+                            try {
+                                const paymentResponse = await axios.post('http://localhost:4143/api/customers/savePayment', {
+                                   billId:data.billId,
+                                    orderId: data.razorpayOrderId,
+                                    paymentId: response.razorpay_payment_id,
+                                    signature: response.razorpay_signature,
+                                    paymentMode: formData.payment_mode,
+                                    amount: amount
+                                }, {
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+    
+                                console.log("Payment saved:", paymentResponse.data);
+                            } catch (error) {
+                                console.error("Error saving payment information:", error);
+                            }
+                        },
+                        prefill: {
+                            name: formData.customer_name,
+                            email: formData.email,
+                            contact: formData.contact_number
+                        },
+                        notes: {
+                            address: "Razorpay Corporate Office"
+                        },
+                        theme: {
+                            color: "#3399cc"
+                        }
+                    };
+                    console.log(options);
+    
+                    const rzp1 = new window.Razorpay(options);
+                    rzp1.open();
+                }
             } else {
                 throw new Error('Failed to print bill');
             }
@@ -127,11 +180,13 @@ function BillingPage() {
             alert("An error occurred. Please try again later.");
         }
     };
+    
+    
 
     // Function to close the popup and reload the page
     const closePopup = () => {
         setShowSuccessPopup(false);
-        window.location.reload(); // Reload the page when the popup is closed
+        // window.location.reload(); // Reload the page when the popup is closed
     };
 
     return (
