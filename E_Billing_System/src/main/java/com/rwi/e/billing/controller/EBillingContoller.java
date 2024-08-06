@@ -19,14 +19,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rwi.e.billing.Service.EmailPdfService;
 import com.rwi.e.billing.Service.IBillingService;
-import com.rwi.e.billing.Service.IPaymentService;
 import com.rwi.e.billing.Service.PdfService;
 import com.rwi.e.billing.Service.Product_Service;
 import com.rwi.e.billing.Service.QRCodeGenerator;
 import com.rwi.e.billing.Service.RazorpayPaymentService;
 import com.rwi.e.billing.dto.BillResponse;
 import com.rwi.e.billing.dto.Customer;
-import com.rwi.e.billing.dto.PaymentDTO;
 import com.rwi.e.billing.dto.Product_Dto;
 import com.rwi.e.billing.dto.RequestData;
 
@@ -46,75 +44,64 @@ public class EBillingContoller {
 	@Autowired
 	private PdfService pdfService;
 	@Autowired
-	private RazorpayPaymentService orderService;
-
+	private RazorpayPaymentService paymentService; 
+	
 	@Autowired
 	private QRCodeGenerator qrGenerator;
 
-	@Autowired
-	private IPaymentService paymentService;
+	
+	
+	
 
-	@PostMapping("/addBillAndSendProductList")
-	public ResponseEntity<BillResponse> addBillAndSendProductList(@RequestBody RequestData requestData) {
-		try {
-			// Extract data from the request body
-			Map<String, Integer> productMap = requestData.getProductMap();
-			Map<String, String> formData = requestData.getFormData();
-			Double totalAmount = requestData.getTotalPrice();
+    @PostMapping("/addBillAndSendProductList")
+    public ResponseEntity<BillResponse> addBillAndSendProductList(@RequestBody RequestData requestData) {
+        try {
+            // Extract data from the request body
+            Map<String, Integer> productMap = requestData.getProductMap();
+            Map<String, String> formData = requestData.getFormData();
+            Double totalAmount = requestData.getTotalPrice();
 
-			// Handle the productList received from the client
-			if (productMap != null && formData != null && totalAmount != null) {
-				// Update stock
-				String result = productService.updateStock(productMap);
+            // Handle the productList received from the client
+            if (productMap != null && formData != null && totalAmount != null) {
+                // Update stock 
+                String result = productService.updateStock(productMap);
 
-				Customer customer = new Customer(formData.get("customer_name"), formData.get("contact_number"),
-						formData.get("email"), formData.get("payment_mode"), totalAmount);
+                Customer customer = new Customer(formData.get("customer_name"), formData.get("contact_number"),
+                        formData.get("email"), formData.get("payment_mode"), totalAmount);
 
-				customer.setNoOfProduct(productMap.size());
-				// Create bill and send response
-				int id = billService.SaveBillInfo(customer);
-				// Generate the PDF
-				customer.setId(id);
-				String qr = qrGenerator.generateQRCode(customer, productMap);
-				System.out.println("QR code Generated successfully");
-				String filePath = pdfService.createPdf(customer, productMap);
-				customer.setPdfPath(filePath);
-				// Update the bill info set generated pdf path to the bill
-				billService.UpdateBill(id, customer);
-				// Send the bill as pdf and visit again message
-				// mailService.sendVisitAgain(customer.getEmail(), filePath);
+                customer.setNoOfProduct(productMap.size());
+                // Create bill and send response
+                int id = billService.SaveBillInfo(customer);
+                // Generate the PDF
+                customer.setId(id);
+                String qr = qrGenerator.generateQRCode(customer, productMap);
+                System.out.println("QR code Generated successfully");
+                String filePath = pdfService.createPdf(customer, productMap);
+                customer.setPdfPath(filePath);
+                // Update the bill info set generated pdf path to the bill
+                billService.UpdateBill(id, customer);
+                // Send the bill as pdf and visit again message
+                mailService.sendVisitAgain(customer.getEmail(), filePath);
 
-				Map<String, String> paymentData = orderService.createOrder(totalAmount);
+                Map<String, String> paymentData = paymentService.createOrder(totalAmount);
 
-				BillResponse billResponse = new BillResponse(customer.getId(),
-						"Bill and product list processed successfully", paymentData.get("orderId"));
+                BillResponse billResponse = new BillResponse(
+                        "Bill and product list processed successfully",
+                        paymentData.get("orderId")  
+                );
 
-				return ResponseEntity.ok(billResponse);
-			} else {
-				// Return an error response if the productList or form data is empty or null
-				System.out.println("Product list or form data is empty or invalid");
-				return ResponseEntity.badRequest()
-						.body(new BillResponse(null, "Product list or form data is empty or invalid", null));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(new BillResponse(null, "Error processing bill and product list", null));
-		}
-	}
-
-	@PostMapping("/savePayment")
-	public ResponseEntity<String> savePayment(@RequestBody PaymentDTO paymentDto) {
-		try {
-			// paymentInfoRepository.save(paymentInfo);
-			paymentService.savePaymentInfo(paymentDto);
-			System.out.println("EBillingContoller.savePayment()");
-			System.out.println(paymentDto);
-			return new ResponseEntity<>("Payment information saved successfully", HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>("Failed to save payment information", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+                return ResponseEntity.ok(billResponse);
+            } else {
+                // Return an error response if the productList or form data is empty or null
+                System.out.println("Product list or form data is empty or invalid");
+                return ResponseEntity.badRequest().body(new BillResponse("Product list or form data is empty or invalid", null));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new BillResponse("Error processing bill and product list", null));
+        }
+    }
 
 	/*
 	 * @PostMapping("/addBillAndSendProductList") public ResponseEntity<String>
@@ -151,14 +138,13 @@ public class EBillingContoller {
 	 * ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 	 * .body("Error processing bill and product list"); } }
 	 */
-
-	@GetMapping("/openPdf")
-	public ResponseEntity<String> OpenPdf(@RequestParam String pdfPath) {
-		System.out.println("file to open" + pdfPath);
-		pdfService.openPdfFile(pdfPath);
-		return new ResponseEntity<>("OK", HttpStatus.OK);
+	
+	@GetMapping("/openPdf") 
+	public ResponseEntity<String> OpenPdf(@RequestParam  String pdfPath ) {
+		System.out.println( "file to open"+ pdfPath);
+	pdfService.openPdfFile(pdfPath);
+	 return new ResponseEntity<>("OK", HttpStatus.OK);	
 	}
-
 	@GetMapping("/getAllBills")
 	public ResponseEntity<List<Customer>> getAllProducts() {
 		ResponseEntity<?> productsResponseEntity = billService.getAllBills();
@@ -192,10 +178,10 @@ public class EBillingContoller {
 	@GetMapping("/getProductDetails")
 	public ResponseEntity<Product_Dto> getProductDetailsByName(@RequestParam String productName) {
 		try {
-			// get product details from repository
+			//get product details from repository 
 			Product_Dto product = productService.getDeatilsByName(productName);
 			if (product != null) {
-				// Return the response
+				// Return the  response
 				return ResponseEntity.ok(product);
 			} else {
 				return ResponseEntity.notFound().build();
@@ -209,20 +195,19 @@ public class EBillingContoller {
 	@GetMapping("/getDashboardInfo")
 	public Map<String, Object> getDashboardData() {
 		Map<String, Object> dashboardData = new HashMap<String, Object>();
-		dashboardData.put("totalPurchases", 100000.00); //
-		dashboardData.put("totalSales", billService.fetchTotalSells()); // fetch total sell from repository
+		dashboardData.put("totalPurchases", 100000.00); // 
+		dashboardData.put("totalSales", billService.fetchTotalSells()); //fetch total sell from repository
 		dashboardData.put("totalProfit", 30000.00); //
-		dashboardData.put("totalCustomers", billService.fetchTotalCustomerCount()); // fetch total customer count from
-																					// repository
+		dashboardData.put("totalCustomers", billService.fetchTotalCustomerCount()); //fetch total customer count from repository
 		return dashboardData;
 	}
 
 	@GetMapping("/getNavbarInfo")
 	public Map<String, Object> getNavbarInfo() {
 		Map<String, Object> navbarData = new HashMap<String, Object>();
-		navbarData.put("todaysCustomerCount", billService.fetchTodaysCustomerCount()); // fetch todays customer count
-		navbarData.put("todaysSell", billService.fetchTodaysSell()); // fetch todays sell
-
+		navbarData.put("todaysCustomerCount", billService.fetchTodaysCustomerCount()); //fetch todays customer count
+		navbarData.put("todaysSell", billService.fetchTodaysSell());  //fetch todays sell
+		
 		return navbarData;
 	}
 

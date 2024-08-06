@@ -31,7 +31,7 @@ public class RazorpayPaymentService {
             Order order = razorpay.orders.create(orderRequest);
             Map<String, String> response = new HashMap<>();
             response.put("orderId", order.get("id"));
-          //  response.put("key", razorpayKey);
+            response.put("key", razorpayKey);
             return response;
         } catch (Exception e) {
             throw new RuntimeException("Error creating order", e);

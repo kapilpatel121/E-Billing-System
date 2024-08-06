@@ -50,8 +50,8 @@ public class PdfService {
 			throws IOException, DocumentException, SQLException {
      int id=customer.getId();
 		//path of the local computer 
-		String DEST = "E:/Ebilling/Bill" + id + ".pdf";
-       String imagePath="E:/Ebilling/QRCodes/"+id+"QR.png";
+		String DEST = "E:/Main_Project/e_billingws" + id + ".pdf";
+       String imagePath="E:/Main_Project/e_billingws/QRCodes/"+id+"QR.png";
 		//create file in local computer 
 		File file = new File(DEST);
 		file.getParentFile().mkdirs();

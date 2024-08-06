@@ -57,7 +57,7 @@ public class QRCodeGenerator {
         data.append("---------------------------------\n")
         .append("Total Amount: ").append(customer.getTotalAmount());
         
-        String filePath = "E:\\Ebilling\\QRCodes\\" + customer.getId() + "QR.png";
+        String filePath = "E:\\Main_Project\\e_billingws\\QRCodes\\" + customer.getId() + "QR.png";
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         Map<EncodeHintType, Object> hintMap = new HashMap<>();
         hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
