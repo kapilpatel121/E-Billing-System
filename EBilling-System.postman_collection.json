@@ -1,0 +1,363 @@
+{
+	"info": {
+		"_postman_id": "96c5e542-5669-48b9-86a8-a83c44f96b03",
+		"name": "EBilling-System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27909421"
+	},
+	"item": [
+		{
+			"name": "Billing",
+			"item": [
+				{
+					"name": "Generate bill",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productMap\": {\r\n    \"coofee\": 2\r\n  },\r\n  \"formData\": {\r\n    \"customer_name\": \"Shivam Yadav\",\r\n    \"contact_number\": \"7049975962\",\r\n    \"email\":\"patelkapil1296@gmail.com\",\r\n    \"payment_mode\": \"Online\"\r\n  },\r\n  \"totalPrice\": 950.50\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4143/api/customers/addBillAndSendProductList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"api",
+								"customers",
+								"addBillAndSendProductList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Bills",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4143/api/customers/getAllBills",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"api",
+								"customers",
+								"getAllBills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Product name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4143/api/customers/getProduct",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"api",
+								"customers",
+								"getProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": " Product Details by name",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productName",
+									"value": "Coffee",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:4143/api/customers/getProductDetails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"api",
+								"customers",
+								"getProductDetails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Open Generated Pdf",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "pdfPath",
+									"value": "E:/Main_Project/Bills/Bill107.pdf",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:4143/api/customers/openPdf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"api",
+								"customers",
+								"openPdf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Dashboard Info(All Over sell)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4143/api/customers/getDashboardInfo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"api",
+								"customers",
+								"getDashboardInfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Navbar Info(Today sell)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4143/api/customers/getNavbarInfo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"api",
+								"customers",
+								"getNavbarInfo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Add product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" :2,\r\n  \"name\": \"Rice\",\r\n  \"companyName\": \"Basmati\",\r\n  \"price\": 105.00,\r\n  \"purchasePrice\" : 90.00,\r\n  \"mfd\": \"2023-05-01\",\r\n  \"exp\": \"2024-12-31\",\r\n  \"units\": 70,\r\n  \"discount\": 0.05,\r\n  \"gst\": 5.0\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4143/rwi/ebill/api/addProduct",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"rwi",
+								"ebill",
+								"api",
+								"addProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4143/rwi/ebill/api/getAllProducts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"rwi",
+								"ebill",
+								"api",
+								"getAllProducts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n {\r\n        \"name\": \"Rice\",\r\n        \"price\": 105.0,\r\n        \"purchasePrice\": 90.0,\r\n        \"mfd\": \"2023-05-01\",\r\n         \"exp\": \"2024-12-31\",\r\n        \"units\": 70,\r\n        \"discount\": 0.05,\r\n        \"gst\": 5.0,\r\n        \"company_name\": \"Basmati\",\r\n        \"id\": 1018\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4143/rwi/ebill/api/updateProduct/1018",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"rwi",
+								"ebill",
+								"api",
+								"updateProduct",
+								"1018"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4143/rwi/ebill/api/deleteProduct/1021",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"rwi",
+								"ebill",
+								"api",
+								"deleteProduct",
+								"1021"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Product name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4143/api/customers/getProduct",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"api",
+								"customers",
+								"getProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4143/rwi/ebill/api/getProductById/1018",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4143",
+							"path": [
+								"rwi",
+								"ebill",
+								"api",
+								"getProductById",
+								"1018"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
